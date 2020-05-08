@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">https://pocketdungeon-services-backend.herokuapp.com/login</string>
+    <string name="register">https://pocketdungeon-services-backend.herokuapp.com/register</string>
+</resources>

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">PocketDungeon</string>
+    <string name="LOGIN_PREFS">edu.tacoma.uw.pocketdungeon.PREFS</string>
+    <string name="LOGGEDIN">loggedin</string>
+    <string name="action_logout">Sign Out</string>
 </resources>
