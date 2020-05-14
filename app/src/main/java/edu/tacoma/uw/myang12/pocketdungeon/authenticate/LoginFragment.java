@@ -1,6 +1,8 @@
 package edu.tacoma.uw.myang12.pocketdungeon.authenticate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -36,6 +38,7 @@ public class LoginFragment extends Fragment {
 
     private LoginFragmentListener mLoginFragmentListener;
     private JSONObject mUserJSON;
+    private SharedPreferences mSharedPreferences;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -141,10 +144,18 @@ public class LoginFragment extends Fragment {
             try {
                 JSONObject jsonObject = new JSONObject(s);
 
-                /** If login successfully, go to main screen. */
+                /** If login successfully, go to main screen.
+                 * Get userId and save to SharedPreferences. */
                 if (jsonObject.getBoolean("success")) {
                     Toast.makeText(getActivity(),
                             "Login Successfully", Toast.LENGTH_SHORT).show();
+
+                    mSharedPreferences = getActivity().getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                            Context.MODE_PRIVATE);
+                    mSharedPreferences.edit()
+                            .putInt(getString(R.string.USERID), jsonObject.getInt("memberId"))
+                            .commit();
+
                     Intent intent = new Intent(getActivity(), MainMenuActivity.class);
                     startActivity(intent);
                     getActivity().finish();

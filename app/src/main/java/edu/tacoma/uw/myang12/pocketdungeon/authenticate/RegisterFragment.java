@@ -131,7 +131,7 @@ public class RegisterFragment extends Fragment {
                 if (jsonObject.getBoolean("success")) {
                     Toast.makeText(getActivity(),
                             "Register Successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+                    Intent intent = new Intent(getActivity(), SignInActivity.class);
                     startActivity(intent);
                     getActivity().finish();
                 }

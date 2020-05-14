@@ -3,6 +3,8 @@
     <string name="LOGIN_PREFS">edu.tacoma.uw.pocketdungeon.PREFS</string>
     <string name="LOGGEDIN">loggedin</string>
     <string name="action_logout">Sign Out</string>
+    <string name="USERID">userid</string>
+
     <string name="Open">open</string>
     <string name="Close">close</string>
     <string name="characters">Characters</string>
@@ -35,4 +37,7 @@
     DROP TABLE IF EXISTS Characters
     </string>
 
+    =======
+
+    >>>>>>> Stashed changes
 </resources>

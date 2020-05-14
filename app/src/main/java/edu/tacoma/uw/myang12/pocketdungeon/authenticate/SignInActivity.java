@@ -51,9 +51,6 @@ public class SignInActivity extends AppCompatActivity
 
     @Override
     public void register(String email, String pwd) {
-        mSharedPreferences
-                .edit()
-                .putBoolean(getString(R.string.LOGGEDIN), true)
-                .commit();
+
     }
 }
