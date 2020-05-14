@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class CampaignListActivity extends AppCompatActivity {
     private List<Campaign> mCampaignList;
     private RecyclerView mRecyclerView;
     private SharedPreferences mSharedPreferences;
+    private JSONObject mCampaignJSON;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +56,17 @@ public class CampaignListActivity extends AppCompatActivity {
             }
         });
 
-        StringBuilder url = new StringBuilder(getString(R.string.get_campaigns));
         mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
         int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
 
-        JSONObject mCampaignJSON = new JSONObject();
+        StringBuilder url = new StringBuilder(getString(R.string.campaigns_url));
+        mCampaignJSON = new JSONObject();
         try {
             mCampaignJSON.put(User.ID, userID);
             new CampaignListActivity.CampaignTask().execute(url.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         assert mRecyclerView != null;
         setupRecyclerView(mRecyclerView);
     }
@@ -139,6 +140,10 @@ public class CampaignListActivity extends AppCompatActivity {
                 try {
                     URL urlObject = new URL(url);
                     urlConnection = (HttpURLConnection) urlObject.openConnection();
+
+                    // For Debugging
+                    Log.i("Get_campaigns", mCampaignJSON.toString());
+
                     InputStream content = urlConnection.getInputStream();
                     BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
                     String s = "";
@@ -160,9 +165,7 @@ public class CampaignListActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             if (s.startsWith("Unable to")) {
-                Toast.makeText(getApplicationContext(), "Unable to download" + s,
-                        Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
@@ -171,6 +174,9 @@ public class CampaignListActivity extends AppCompatActivity {
                 if (jsonObject.getBoolean("success")) {
                     mCampaignList = Campaign.parseCampaignJson(
                             jsonObject.getString("names"));
+
+                    // For Debugging
+                    Log.i("campaignJson", mCampaignJSON.toString());
 
                     if (!mCampaignList.isEmpty()) {
                         setupRecyclerView(mRecyclerView);
