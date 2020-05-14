@@ -6,6 +6,7 @@ public class User implements Serializable {
     private String mEmail;
     private String mPassword;
 
+    public static final String ID = "memberid";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
 

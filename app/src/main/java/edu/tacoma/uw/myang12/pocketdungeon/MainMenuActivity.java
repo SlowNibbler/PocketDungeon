@@ -55,6 +55,9 @@ public class MainMenuActivity extends AppCompatActivity {
                         Toast.makeText(MainMenuActivity.this, "My Account",Toast.LENGTH_SHORT).show();break;
                     case R.id.campaigns:
                         // go to campaign activity
+                        Intent intent = new Intent(MainMenuActivity.this, CampaignListActivity.class);
+                        startActivity(intent);
+                        finish();
 
                     default:
                         return true;
