@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CharacterDetailFragment">
+    tools:context=".character.CharacterDetailFragment">
 
     <TextView
         android:id="@+id/item_detail_charName"
