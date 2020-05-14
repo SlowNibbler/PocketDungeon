@@ -1,8 +1,10 @@
-package edu.tacoma.uw.myang12.pocketdungeon;
+package edu.tacoma.uw.myang12.pocketdungeon.campaign;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import edu.tacoma.uw.myang12.pocketdungeon.R;
 
 public class CampaignAddActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package edu.tacoma.uw.myang12.pocketdungeon;
+package edu.tacoma.uw.myang12.pocketdungeon.character;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import edu.tacoma.uw.myang12.pocketdungeon.R;
 import edu.tacoma.uw.myang12.pocketdungeon.model.Character;
 
 

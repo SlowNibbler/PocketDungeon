@@ -1,4 +1,4 @@
-package edu.tacoma.uw.myang12.pocketdungeon;
+package edu.tacoma.uw.myang12.pocketdungeon.campaign;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import edu.tacoma.uw.myang12.pocketdungeon.R;
 import edu.tacoma.uw.myang12.pocketdungeon.model.Campaign;
 import edu.tacoma.uw.myang12.pocketdungeon.model.User;
 
@@ -53,7 +54,7 @@ public class CampaignListActivity extends AppCompatActivity {
             }
         });
 
-        StringBuilder url = new StringBuilder(getString(R.string.campaigns_url));
+        StringBuilder url = new StringBuilder(getString(R.string.get_campaigns));
         mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
         int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
 

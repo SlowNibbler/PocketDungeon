@@ -1,11 +1,9 @@
-package edu.tacoma.uw.myang12.pocketdungeon;
+package edu.tacoma.uw.myang12.pocketdungeon.character;
 
 
 
         import android.app.Activity;
         import android.os.Bundle;
-
-        import com.google.android.material.appbar.CollapsingToolbarLayout;
 
         import androidx.fragment.app.Fragment;
 
@@ -14,6 +12,7 @@ package edu.tacoma.uw.myang12.pocketdungeon;
         import android.view.ViewGroup;
         import android.widget.TextView;
 
+        import edu.tacoma.uw.myang12.pocketdungeon.R;
         import edu.tacoma.uw.myang12.pocketdungeon.model.Character;
         import edu.tacoma.uw.myang12.pocketdungeon.model.CharacterContent;
 

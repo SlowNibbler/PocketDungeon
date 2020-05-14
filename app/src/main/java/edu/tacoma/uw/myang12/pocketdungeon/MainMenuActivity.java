@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 import edu.tacoma.uw.myang12.pocketdungeon.authenticate.SignInActivity;
+import edu.tacoma.uw.myang12.pocketdungeon.campaign.CampaignListActivity;
+import edu.tacoma.uw.myang12.pocketdungeon.character.CharacterListActivity;
 
 /**
  * The main screen displays when user open the app.

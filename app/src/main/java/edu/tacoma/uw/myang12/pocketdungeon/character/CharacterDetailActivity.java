@@ -1,4 +1,4 @@
-package edu.tacoma.uw.myang12.pocketdungeon;
+package edu.tacoma.uw.myang12.pocketdungeon.character;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,6 +25,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import edu.tacoma.uw.myang12.pocketdungeon.R;
 import edu.tacoma.uw.myang12.pocketdungeon.model.Character;
 
 

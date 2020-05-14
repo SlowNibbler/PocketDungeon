@@ -13,19 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CampaignAddActivity"
+            android:name=".campaign.CampaignAddActivity"
             android:label="Add Campaign"
-            android:parentActivityName=".CampaignListActivity"></activity>
+            android:parentActivityName=".campaign.CampaignListActivity"></activity>
         <activity
-            android:name=".CampaignListActivity"
+            android:name=".campaign.CampaignListActivity"
             android:label="Campaigns"
             android:parentActivityName=".MainMenuActivity"/>
         <activity
-            android:name=".CharacterListActivity"
+            android:name=".character.CharacterListActivity"
             android:label="@string/title_activity_character_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CharacterDetailActivity"
+            android:name=".character.CharacterDetailActivity"
             android:label="@string/title_activity_character_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainMenuActivity" />
