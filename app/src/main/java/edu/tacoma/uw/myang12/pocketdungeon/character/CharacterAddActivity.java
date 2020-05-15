@@ -3,6 +3,7 @@ package edu.tacoma.uw.myang12.pocketdungeon.character;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -170,6 +171,10 @@ public class CharacterAddActivity extends AppCompatActivity {
                 if (jsonObject.getBoolean("success")) {
                     Toast.makeText(getApplicationContext(), "Character Added successfully"
                             , Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(CharacterAddActivity.this, CharacterListActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Character couldn't be added: "
