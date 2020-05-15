@@ -38,6 +38,10 @@ public class CampaignAddActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     private JSONObject mCampaignJSON;
 
+    /**
+     * standard onCreate function to setup the view
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,10 @@ public class CampaignAddActivity extends AppCompatActivity {
          * Get campaign name and notes from user entry. */
         add_button = findViewById(R.id.add_button);
         add_button.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Sends the users input to a JSON and then the database
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 String campaignName = campaign_name.getText().toString();
@@ -76,6 +84,11 @@ public class CampaignAddActivity extends AppCompatActivity {
 
     /** Send post request to server, adding campaign info into database. */
     private class AddCampaignTask extends AsyncTask<String, Void, String> {
+        /**
+         * Connects to the database to add the users data
+         * @param urls
+         * @return
+         */
         @Override
         protected String doInBackground(String... urls) {
             String response = "";

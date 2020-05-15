@@ -12,6 +12,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -31,8 +33,9 @@ import java.net.URL;
 import java.util.List;
 
 import edu.tacoma.uw.myang12.pocketdungeon.R;
+import edu.tacoma.uw.myang12.pocketdungeon.authenticate.SignInActivity;
+import edu.tacoma.uw.myang12.pocketdungeon.character.CharacterListActivity;
 import edu.tacoma.uw.myang12.pocketdungeon.model.Campaign;
-import edu.tacoma.uw.myang12.pocketdungeon.model.User;
 
 /** This class retrieves and displays user's campaign list. */
 public class CampaignListActivity extends AppCompatActivity {
@@ -42,6 +45,21 @@ public class CampaignListActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     private JSONObject mCampaignJSON;
 
+    /**
+     * Sets up the options menu
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    /**
+     * Initializes the view and components
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +70,11 @@ public class CampaignListActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
         FloatingActionButton add_button = findViewById(R.id.add_button);
         add_button.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * launches the add campaign activity
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CampaignListActivity.this, CampaignAddActivity.class);
@@ -73,6 +96,31 @@ public class CampaignListActivity extends AppCompatActivity {
 
         assert mRecyclerView != null;
         setupRecyclerView(mRecyclerView);
+    }
+
+    /** When user clicks on sign out button, go to sign in screen. */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_logout) {
+            SharedPreferences sharedPreferences =
+                    getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false)
+                    .commit();
+            Intent i = new Intent(this, SignInActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        if (item.getItemId() == R.id.action_campaign) {
+            Intent i = new Intent(this, CampaignListActivity.class);
+            startActivity(i);
+        }
+
+        if (item.getItemId() == R.id.action_character) {
+            Intent i = new Intent(this, CharacterListActivity.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /** Create adapter and set it up with RecyclerView. */

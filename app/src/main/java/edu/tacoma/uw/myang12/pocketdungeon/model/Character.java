@@ -1,15 +1,14 @@
 package edu.tacoma.uw.myang12.pocketdungeon.model;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
-
-        import java.io.Serializable;
-        import java.util.ArrayList;
-        import java.util.List;
-
+/** A class for Campaign object, a campaign has ID, name and notes. */
 public class Character implements Serializable {
 
     private String mCharacterName;
@@ -23,17 +22,17 @@ public class Character implements Serializable {
     private String mCharacterWis;
     private String mCharacterCha;
 
-
+    // fields for query database
     public static final String CHARACTERNAME = "charactername";
     public static final String CHARACTERCLASS = "characterclass";
     public static final String CHARACTERRACE = "characterrace";
-    public static final String CHARACTERLEVEL = "0";
-    public static final String CHARACTERSTR = "0";
-    public static final String CHARACTERDEX = "0";
-    public static final String CHARACTERCONST = "0";
-    public static final String CHARACTERINT = "0";
-    public static final String CHARACTERWIS = "0";
-    public static final String CHARACTERCHA = "0";
+    public static final String CHARACTERLEVEL = "characterlevel";
+    public static final String CHARACTERSTR = "strength";
+    public static final String CHARACTERDEX = "dexterity";
+    public static final String CHARACTERCONST = "constitution";
+    public static final String CHARACTERINT = "intelligence";
+    public static final String CHARACTERWIS = "wisdom";
+    public static final String CHARACTERCHA = "charisma";
 
     public Character(String name, String charClass, String race, String level, String str, String dex, String constI, String intl, String wis, String cha) {
         mCharacterName = name;
@@ -126,17 +125,19 @@ public class Character implements Serializable {
         return temp;
     }
 
-    public static List<Character> parseCourseJSON(String courseJson) throws JSONException {
+    /** method to construct a campaign list by parsing JsonObject. */
+    public static List<Character> parseCharacterJSON(String characterJson) throws JSONException {
         List<Character> characterList = new ArrayList<>();
-        if (courseJson != null) {
-            JSONArray arr = new JSONArray(courseJson);
+        if (characterJson != null) {
+
+            JSONArray arr = new JSONArray(characterJson);
 
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
                 Character character = new Character(obj.getString(Character.CHARACTERNAME), obj.getString(Character.CHARACTERCLASS), obj.getString(Character.CHARACTERRACE),
-                        obj.getString(Character.CHARACTERLEVEL), obj.getString(Character.CHARACTERSTR), obj.getString(Character.CHARACTERDEX), obj.getString(Character.CHARACTERCONST),
-                        obj.getString(Character.CHARACTERINT), obj.getString(Character.CHARACTERWIS), obj.getString(Character.CHARACTERCHA));
-                //System.out.println("PARSE: " + course.toString());
+                        String.valueOf(obj.getInt(Character.CHARACTERLEVEL)), String.valueOf(obj.getInt(Character.CHARACTERSTR)), String.valueOf(obj.getInt(Character.CHARACTERDEX)),
+                        String.valueOf(obj.getInt(Character.CHARACTERCONST)),
+                        String.valueOf(obj.getInt(Character.CHARACTERINT)), String.valueOf(obj.getInt(Character.CHARACTERWIS)), String.valueOf(obj.getInt(Character.CHARACTERCHA)));
                 characterList.add(character);
             }
         }
