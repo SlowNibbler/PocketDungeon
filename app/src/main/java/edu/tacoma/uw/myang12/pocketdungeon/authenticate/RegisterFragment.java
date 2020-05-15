@@ -47,7 +47,9 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        /** Inflate the layout for this fragment.
+         *  Get email and password from user entry.
+         */
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         getActivity().setTitle("Create Account");
         mRegisterFragmentListener = (RegisterFragmentListener) getActivity();
@@ -55,7 +57,7 @@ public class RegisterFragment extends Fragment {
         final EditText edtPassword = view.findViewById(R.id.register_password);
         Button btnRegister = view.findViewById(R.id.button_register);
 
-        /** when user clicks on the register button */
+        /** when user clicks on the register button, get email and password from entries */
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +80,7 @@ public class RegisterFragment extends Fragment {
         return view;
     }
 
-    /** send post request to server */
+    /** send post request to server, validate user entry */
     private class RegisterAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -127,7 +129,7 @@ public class RegisterFragment extends Fragment {
             try {
                 JSONObject jsonObject = new JSONObject(s);
 
-                /** If register successfully, go to main screen. */
+                /** If register successfully, go to sign in screen. */
                 if (jsonObject.getBoolean("success")) {
                     Toast.makeText(getActivity(),
                             "Register Successfully", Toast.LENGTH_SHORT).show();
