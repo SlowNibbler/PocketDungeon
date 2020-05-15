@@ -2,8 +2,10 @@
 <resources>
     <string name="login">https://pocketdungeon-services-backend.herokuapp.com/login</string>
     <string name="register">https://pocketdungeon-services-backend.herokuapp.com/register</string>
-    <string name="add_character">https://pocketdungeon-services-backend.herokuapp.com/add_character</string>
-    <string name="get_characters">https://pocketdungeon-services-backend.herokuapp.com/get_characters</string>
+
+    <string name="add_character">https://pocketdungeon-services-backend.herokuapp.com/characters</string>
+    <string name="get_characters">https://pocketdungeon-services-backend.herokuapp.com/characters?memberid=</string>
+
     <string name="add_campaign">https://pocketdungeon-services-backend.herokuapp.com/campaigns</string>
     <string name="get_campaigns">https://pocketdungeon-services-backend.herokuapp.com/campaigns?memberid=</string>
 

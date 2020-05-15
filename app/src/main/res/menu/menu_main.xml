@@ -3,9 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_logout"
+        android:id="@+id/action_campaign"
         android:orderInCategory="100"
-        android:title="@string/action_logout"
-        app:showAsAction="ifRoom" />
+        android:title="Campaign"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_character"
+        android:orderInCategory="200"
+        android:title="Character"
+        app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="300"
+        android:title="Sign Out"
+        app:showAsAction="never" />
 
 </menu>
