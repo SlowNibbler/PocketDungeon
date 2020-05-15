@@ -32,7 +32,7 @@ import edu.tacoma.uw.myang12.pocketdungeon.R;
 import edu.tacoma.uw.myang12.pocketdungeon.model.User;
 
 /**
- * Login fragment to login an account.
+ * Login fragment to login a user account.
  */
 public class LoginFragment extends Fragment {
 
@@ -51,7 +51,9 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        /** Inflate the layout for this fragment.
+         *  Get email and password from user entry.
+         */
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         getActivity().setTitle("Sign In");
         mLoginFragmentListener = (LoginFragmentListener) getActivity();
@@ -81,7 +83,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        /** when user clicks on the open an account text, open register page */
+        /** when user clicks on the 'Don't have an account' text, open register screen */
         txtRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +97,7 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    /** send post request to server */
+    /** Send post request to server, check login credentials. */
     private class LoginAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override

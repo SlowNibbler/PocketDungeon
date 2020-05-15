@@ -23,7 +23,7 @@ public class SignInActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        /** Use SharedPreferences to check if the user was previously logged in */
+        /** Use SharedPreferences to check if the user was previously logged in. */
         mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
                 Context.MODE_PRIVATE);
 
@@ -41,6 +41,7 @@ public class SignInActivity extends AppCompatActivity
         }
     }
 
+    /** After user logs in, change SharedPreferences to true. */
     @Override
     public void login(String email, String pwd) {
         mSharedPreferences

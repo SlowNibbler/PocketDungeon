@@ -8,11 +8,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/** A class for Campaign object, a campaign has ID, name and notes. */
 public class Campaign implements Serializable {
     private int campaignID;
     private String campaignName;
     private String getCampaignNotes;
 
+    // fields for query database
     public static final String ID = "campaignid";
     public static final String NAME = "campaignname";
     public static final String NOTES = "campaignnotes";
@@ -43,6 +45,7 @@ public class Campaign implements Serializable {
         this.getCampaignNotes = getCampaignNotes;
     }
 
+    /** method to construct a campaign list by parsing JsonObject. */
     public static List<Campaign> parseCampaignJson(String campaignJson) throws JSONException {
         List<Campaign> campaignList = new ArrayList<>();
         if (campaignJson != null) {

@@ -20,7 +20,7 @@ import edu.tacoma.uw.myang12.pocketdungeon.campaign.CampaignListActivity;
 import edu.tacoma.uw.myang12.pocketdungeon.character.CharacterListActivity;
 
 /**
- * The main screen displays when user open the app.
+ * The main screen displaying when user opens the app.
  */
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -72,6 +72,7 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
+    /** Set up the buttons in main screen. */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main,menu);
