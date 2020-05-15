@@ -3,6 +3,7 @@ package edu.tacoma.uw.myang12.pocketdungeon.campaign;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -111,7 +112,7 @@ public class CampaignAddActivity extends AppCompatActivity {
             return response;
         }
 
-        /** If campaign is added successfully, inform user.
+        /** If campaign is added successfully, inform user and display campaign list.
          * Otherwise, send error message.
          * @param s response message
          */
@@ -127,6 +128,10 @@ public class CampaignAddActivity extends AppCompatActivity {
                 if (jsonObject.getBoolean("success")) {
                     Toast.makeText(getApplicationContext(), "Campaign Added successfully"
                             , Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(CampaignAddActivity.this, CampaignListActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Campaign couldn't be added: "
