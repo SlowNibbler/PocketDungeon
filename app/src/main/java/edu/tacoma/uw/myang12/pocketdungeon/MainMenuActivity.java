@@ -56,13 +56,11 @@ public class MainMenuActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_campaign) {
             Intent i = new Intent(this, CampaignListActivity.class);
             startActivity(i);
-            finish();
         }
 
         if (item.getItemId() == R.id.action_character) {
             Intent i = new Intent(this, CharacterListActivity.class);
             startActivity(i);
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

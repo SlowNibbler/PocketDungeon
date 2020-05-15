@@ -26,6 +26,9 @@ import edu.tacoma.uw.myang12.pocketdungeon.R;
 import edu.tacoma.uw.myang12.pocketdungeon.model.Character;
 import edu.tacoma.uw.myang12.pocketdungeon.model.User;
 
+/**
+ * This class handles creating and storing a character in a user's account
+ */
 public class CharacterAddActivity extends AppCompatActivity {
 
     private EditText character_name;
@@ -43,6 +46,10 @@ public class CharacterAddActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     private JSONObject mCharacterJSON;
 
+    /**
+     * standard onCreate function to setup the view
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +68,10 @@ public class CharacterAddActivity extends AppCompatActivity {
 
         add_button = findViewById(R.id.add_button);
         add_button.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Sends the users input to a JSON and then the database
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 String characterName = character_name.getText().toString();
@@ -99,8 +110,14 @@ public class CharacterAddActivity extends AppCompatActivity {
         });
     }
 
+    /** Send post request to server, adding character info into database. */
     private class AddCharacterTask extends AsyncTask<String, Void, String> {
 
+        /**
+         * Connects to the database to add the users data
+         * @param urls
+         * @return
+         */
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
@@ -118,7 +135,7 @@ public class CharacterAddActivity extends AppCompatActivity {
                     wr.write(mCharacterJSON.toString());
                     wr.flush();
                     wr.close();
-
+                    /** Get response from server. */
                     InputStream content = urlConnection.getInputStream();
                     BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
                     String s = "";
@@ -137,6 +154,10 @@ public class CharacterAddActivity extends AppCompatActivity {
             return response;
         }
 
+        /** If character is added successfully, inform user.
+         * Otherwise, send error message.
+         * @param s response message
+         */
         @Override
         protected void onPostExecute(String s) {
             if (s.startsWith("Unable to add the new character")) {

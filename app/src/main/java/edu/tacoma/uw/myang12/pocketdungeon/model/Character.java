@@ -1,15 +1,14 @@
 package edu.tacoma.uw.myang12.pocketdungeon.model;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
-
-        import java.io.Serializable;
-        import java.util.ArrayList;
-        import java.util.List;
-
+/** A class for Campaign object, a campaign has ID, name and notes. */
 public class Character implements Serializable {
 
     private String mCharacterName;
@@ -23,7 +22,7 @@ public class Character implements Serializable {
     private String mCharacterWis;
     private String mCharacterCha;
 
-
+    // fields for query database
     public static final String CHARACTERNAME = "charactername";
     public static final String CHARACTERCLASS = "characterclass";
     public static final String CHARACTERRACE = "characterrace";
@@ -126,11 +125,10 @@ public class Character implements Serializable {
         return temp;
     }
 
+    /** method to construct a campaign list by parsing JsonObject. */
     public static List<Character> parseCharacterJSON(String characterJson) throws JSONException {
-        System.out.println("parse1");
         List<Character> characterList = new ArrayList<>();
         if (characterJson != null) {
-            System.out.println("parse2");
 
             JSONArray arr = new JSONArray(characterJson);
 
@@ -140,11 +138,7 @@ public class Character implements Serializable {
                         String.valueOf(obj.getInt(Character.CHARACTERLEVEL)), String.valueOf(obj.getInt(Character.CHARACTERSTR)), String.valueOf(obj.getInt(Character.CHARACTERDEX)),
                         String.valueOf(obj.getInt(Character.CHARACTERCONST)),
                         String.valueOf(obj.getInt(Character.CHARACTERINT)), String.valueOf(obj.getInt(Character.CHARACTERWIS)), String.valueOf(obj.getInt(Character.CHARACTERCHA)));
-//                Character character = new Character(obj.getString(Character.CHARACTERNAME), obj.getString(Character.CHARACTERCLASS), obj.getString(Character.CHARACTERRACE),
-//                        obj.getString(Character.CHARACTERLEVEL), obj.getString(Character.CHARACTERSTR), obj.getString(Character.CHARACTERDEX), obj.getString(Character.CHARACTERCONST),
-//                        obj.getString(Character.CHARACTERINT), obj.getString(Character.CHARACTERWIS), obj.getString(Character.CHARACTERCHA));
                 characterList.add(character);
-                System.out.println("parsing: " + character.toString());
             }
         }
         return characterList;
