@@ -50,7 +50,7 @@ public class CampaignAddActivity extends AppCompatActivity {
                 mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
                 int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
 
-                StringBuilder url = new StringBuilder(getString(R.string.campaigns_url));
+                StringBuilder url = new StringBuilder(getString(R.string.add_campaign));
                 mCampaignJSON = new JSONObject();
                 try {
                     mCampaignJSON.put(Campaign.NAME, campaignName);

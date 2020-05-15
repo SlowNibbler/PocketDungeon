@@ -59,14 +59,12 @@ public class CampaignListActivity extends AppCompatActivity {
         mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
         int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
 
-        StringBuilder url = new StringBuilder(getString(R.string.campaigns_url));
+        StringBuilder url = new StringBuilder(getString(R.string.get_campaigns));
+        url.append(userID);
+
         mCampaignJSON = new JSONObject();
-        try {
-            mCampaignJSON.put(User.ID, userID);
-            new CampaignListActivity.CampaignTask().execute(url.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        new CampaignListActivity.CampaignTask().execute(url.toString());
+
         assert mRecyclerView != null;
         setupRecyclerView(mRecyclerView);
     }
@@ -103,7 +101,7 @@ public class CampaignListActivity extends AppCompatActivity {
         // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).getCampaignID());
+            holder.mIdView.setText(String.valueOf(mValues.get(position).getCampaignID()));
             holder.mNameView.setText(mValues.get(position).getCampaignName());
             holder.mNotesView.setText(mValues.get(position).getGetCampaignNotes());
         }
