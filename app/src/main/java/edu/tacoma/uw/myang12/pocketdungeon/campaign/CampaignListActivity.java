@@ -35,6 +35,7 @@ import edu.tacoma.uw.myang12.pocketdungeon.R;
 import edu.tacoma.uw.myang12.pocketdungeon.model.Campaign;
 import edu.tacoma.uw.myang12.pocketdungeon.model.User;
 
+/** This class retrieves and displays user's campaign list. */
 public class CampaignListActivity extends AppCompatActivity {
 
     private List<Campaign> mCampaignList;
@@ -53,6 +54,8 @@ public class CampaignListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_list);
 
+        /** Set up RecyclerView and an add button.
+         *  If user clicks on the add button, open add campaign screen. */
         mRecyclerView = findViewById(R.id.recyclerView);
         FloatingActionButton add_button = findViewById(R.id.add_button);
         add_button.setOnClickListener(new View.OnClickListener() {
@@ -63,12 +66,15 @@ public class CampaignListActivity extends AppCompatActivity {
             }
         });
 
+        /** Use SharedPreferences to retrieve userID for query. */
         mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
         int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
 
+        /** Set up url and append userID in the url query field. */
         StringBuilder url = new StringBuilder(getString(R.string.get_campaigns));
         url.append(userID);
 
+        /** Construct a JSONObject to store query result. */
         mCampaignJSON = new JSONObject();
         new CampaignListActivity.CampaignTask().execute(url.toString());
 
@@ -76,6 +82,7 @@ public class CampaignListActivity extends AppCompatActivity {
         setupRecyclerView(mRecyclerView);
     }
 
+    /** Create adapter and set it up with RecyclerView. */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         if (mCampaignList != null) {
             mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter
@@ -84,6 +91,7 @@ public class CampaignListActivity extends AppCompatActivity {
         }
     }
 
+    /** Class to build RecyclerView and View holders. */
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
@@ -97,7 +105,7 @@ public class CampaignListActivity extends AppCompatActivity {
             mValues = items;
         }
 
-        // Create new views (invoked by the layout manager)
+        /** Create new views (invoked by the layout manager) */
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -105,7 +113,7 @@ public class CampaignListActivity extends AppCompatActivity {
             return new ViewHolder(view);
         }
 
-        // Replace the contents of a view (invoked by the layout manager)
+        /** Replace the contents of a view (invoked by the layout manager) */
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText(String.valueOf(mValues.get(position).getCampaignID()));
@@ -113,7 +121,7 @@ public class CampaignListActivity extends AppCompatActivity {
             holder.mNotesView.setText(mValues.get(position).getGetCampaignNotes());
         }
 
-        // Return the size of campaign list (invoked by the layout manager)
+        /** Return the size of campaign list (invoked by the layout manager) */
         @Override
         public int getItemCount() {
             return mValues.size();
@@ -136,6 +144,7 @@ public class CampaignListActivity extends AppCompatActivity {
         }
     }
 
+    /** Send get request to server, construct a campaign list for display. */
     private class CampaignTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
@@ -146,9 +155,7 @@ public class CampaignListActivity extends AppCompatActivity {
                     URL urlObject = new URL(url);
                     urlConnection = (HttpURLConnection) urlObject.openConnection();
 
-                    // For Debugging
-                    Log.i("Get_campaigns", mCampaignJSON.toString());
-
+                    /** Get response from server. */
                     InputStream content = urlConnection.getInputStream();
                     BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
                     String s = "";
@@ -167,6 +174,10 @@ public class CampaignListActivity extends AppCompatActivity {
             return response;
         }
 
+        /** If campaign is retrieved successfully, inform user.
+         * Otherwise, send error message.
+         * @param s response message
+         */
         @Override
         protected void onPostExecute(String s) {
             if (s.startsWith("Unable to")) {

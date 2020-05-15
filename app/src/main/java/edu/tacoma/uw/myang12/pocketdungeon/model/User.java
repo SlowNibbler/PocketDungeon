@@ -2,10 +2,12 @@ package edu.tacoma.uw.myang12.pocketdungeon.model;
 
 import java.io.Serializable;
 
+/** A class for User object, a user has email and password. */
 public class User implements Serializable {
     private String mEmail;
     private String mPassword;
 
+    // fields for query database
     public static final String ID = "memberid";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";

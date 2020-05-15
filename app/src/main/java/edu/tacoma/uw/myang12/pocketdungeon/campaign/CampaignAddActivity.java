@@ -26,6 +26,9 @@ import edu.tacoma.uw.myang12.pocketdungeon.R;
 import edu.tacoma.uw.myang12.pocketdungeon.model.Campaign;
 import edu.tacoma.uw.myang12.pocketdungeon.model.User;
 
+/**
+ * This class handles storing a new campaign into user's account.
+ */
 public class CampaignAddActivity extends AppCompatActivity {
 
     private EditText campaign_name;
@@ -41,15 +44,21 @@ public class CampaignAddActivity extends AppCompatActivity {
 
         campaign_name = findViewById(R.id.campaign_name_input);
         campaign_notes = findViewById(R.id.campaign_notes_input);
+
+        /** Set up add button listener.
+         * Get campaign name and notes from user entry. */
         add_button = findViewById(R.id.add_button);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String campaignName = campaign_name.getText().toString();
                 String campaignNotes = campaign_notes.getText().toString();
+
+                /** Use SharedPreferences to retrieve userID for query. */
                 mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
                 int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
 
+                /** Set up url and construct a JSONObject to build a formatted message to send. */
                 StringBuilder url = new StringBuilder(getString(R.string.add_campaign));
                 mCampaignJSON = new JSONObject();
                 try {
@@ -64,8 +73,8 @@ public class CampaignAddActivity extends AppCompatActivity {
         });
     }
 
+    /** Send post request to server, adding campaign info into database. */
     private class AddCampaignTask extends AsyncTask<String, Void, String> {
-
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
@@ -79,11 +88,11 @@ public class CampaignAddActivity extends AppCompatActivity {
                     urlConnection.setDoOutput(true);
                     OutputStreamWriter wr =
                             new OutputStreamWriter(urlConnection.getOutputStream());
-
                     wr.write(mCampaignJSON.toString());
                     wr.flush();
                     wr.close();
 
+                    /** Get response from server. */
                     InputStream content = urlConnection.getInputStream();
                     BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
                     String s = "";
@@ -102,6 +111,10 @@ public class CampaignAddActivity extends AppCompatActivity {
             return response;
         }
 
+        /** If campaign is added successfully, inform user.
+         * Otherwise, send error message.
+         * @param s response message
+         */
         @Override
         protected void onPostExecute(String s) {
             if (s.startsWith("Unable to add the new campaign")) {
