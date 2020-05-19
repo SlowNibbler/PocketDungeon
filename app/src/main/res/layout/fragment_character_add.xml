@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".character.CharacterAddFragment">
+
+    <EditText
+        android:id="@+id/character_name_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Character Name" />
+    <EditText
+        android:id="@+id/character_class_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Character Class" />
+    <EditText
+        android:id="@+id/character_race_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Character Race" />
+    <EditText
+        android:id="@+id/character_level_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Character Level" />
+    <EditText
+        android:id="@+id/character_strength_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Strength" />
+    <EditText
+        android:id="@+id/character_dexterity_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dexterity" />
+    <EditText
+        android:id="@+id/character_constitution_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Constitution" />
+    <EditText
+        android:id="@+id/character_intelligence_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Intelligence" />
+    <EditText
+        android:id="@+id/character_wisdom_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Wisdom" />
+    <EditText
+        android:id="@+id/character_charisma_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Charisma" />
+    <Button
+        android:id="@+id/btn_add_character"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Add Character" />
+
+</LinearLayout>

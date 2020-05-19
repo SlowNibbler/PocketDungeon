@@ -1,29 +1,30 @@
 package edu.tacoma.uw.myang12.pocketdungeon.character;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import edu.tacoma.uw.myang12.pocketdungeon.R;
+import edu.tacoma.uw.myang12.pocketdungeon.model.Character;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -32,54 +33,34 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-import edu.tacoma.uw.myang12.pocketdungeon.R;
-import edu.tacoma.uw.myang12.pocketdungeon.authenticate.SignInActivity;
-import edu.tacoma.uw.myang12.pocketdungeon.campaign.CampaignListActivity;
-import edu.tacoma.uw.myang12.pocketdungeon.model.Campaign;
-import edu.tacoma.uw.myang12.pocketdungeon.model.Character;
-
-/** This class retrieves and displays user's character list. */
+/**
+ * An activity representing a list of Characters.
+ * The activity presents a list of characters, which when touched,
+ * lead to a {@link CharacterDetailActivity} representing
+ * character details.
+ */
 public class CharacterListActivity extends AppCompatActivity {
-
     private List<Character> mCharacterList;
     private RecyclerView mRecyclerView;
     private SharedPreferences mSharedPreferences;
     private JSONObject mCharacterJSON;
+    private StringBuilder url;
 
-    /**
-     * Sets up the options menu
-     * @param menu
-     * @return
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
-        return true;
-    }
-
-    /**
-     * Initializes the view and components
-     * @param savedInstanceState
-     */
+    /** Set up display page and add button listener. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_list);
 
-        /** Set up RecyclerView and an add button.
-         *  If user clicks on the add button, open add campaign screen. */
-        mRecyclerView = findViewById(R.id.recyclerView);
-        FloatingActionButton add_button = findViewById(R.id.add_button);
-        add_button.setOnClickListener(new View.OnClickListener() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(getTitle());
 
-            /**
-             * launches the add character activity
-             * @param view
-             */
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CharacterListActivity.this, CharacterAddActivity.class);
-                startActivity(intent);
+                launchCharacterAddFragment();
             }
         });
 
@@ -88,48 +69,36 @@ public class CharacterListActivity extends AppCompatActivity {
         int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
 
         /** Set up url and append userID in the url query field. */
-        StringBuilder url = new StringBuilder(getString(R.string.get_characters));
+        url = new StringBuilder(getString(R.string.get_characters));
         url.append(userID);
 
-        /** Construct a JSONObject to store query result. */
-        mCharacterJSON = new JSONObject();
-        new CharacterListActivity.CharacterTask().execute(url.toString());
-
+        mRecyclerView = findViewById(R.id.character_list);
         assert mRecyclerView != null;
-        setupRecyclerView(mRecyclerView);
+        setupRecyclerView((RecyclerView) mRecyclerView);
     }
 
-    /** When user clicks on sign out button, go to sign in screen. */
+    /** Send GET method to server and set up RecyclerView. */
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_logout) {
-            SharedPreferences sharedPreferences =
-                    getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
-            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false)
-                    .commit();
-            Intent i = new Intent(this, SignInActivity.class);
-            startActivity(i);
-            finish();
+    protected void onResume() {
+        super.onResume();
+        if (mCharacterList == null) {
+            mCharacterJSON = new JSONObject();
+            new CharacterListActivity.CharacterTask().execute(url.toString());
+            setupRecyclerView(mRecyclerView);
         }
-
-        if (item.getItemId() == R.id.action_campaign) {
-            Intent i = new Intent(this, CampaignListActivity.class);
-            startActivity(i);
-        }
-
-        if (item.getItemId() == R.id.action_character) {
-            Intent i = new Intent(this, CharacterListActivity.class);
-            startActivity(i);
-        }
-        return super.onOptionsItemSelected(item);
     }
 
-    /** Create adapter and set it up with RecyclerView. */
+    /** Set up add character fragment. */
+    private void launchCharacterAddFragment() {
+        CharacterAddFragment characterAddFragment = new CharacterAddFragment();
+        Intent intent = new Intent(this, CharacterDetailActivity.class);
+        intent.putExtra(CharacterDetailActivity.ADD_CHARACTER, true);
+        startActivity(intent);
+    }
+
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         if (mCharacterList != null) {
-            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter
-                    (this, mCharacterList));
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(CharacterListActivity.this));
+            recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, mCharacterList));
         }
     }
 
@@ -137,51 +106,58 @@ public class CharacterListActivity extends AppCompatActivity {
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final CharacterListActivity mParent;
+        private final CharacterListActivity mParentActivity;
         private final List<Character> mValues;
 
-        // constructor
+        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Character item = (Character) view.getTag();
+
+                Context context = view.getContext();
+                Intent intent = new Intent(context, CharacterDetailActivity.class);
+                intent.putExtra(CharacterDetailFragment.ARG_ITEM_ID, item);
+
+                context.startActivity(intent);
+            }
+        };
+
         SimpleItemRecyclerViewAdapter(CharacterListActivity parent,
                                       List<Character> items) {
-            mParent = parent;
             mValues = items;
+            mParentActivity = parent;
         }
 
-        /** Create new views (invoked by the layout manager) */
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.character_list, parent, false);
+                    .inflate(R.layout.character_list_content, parent, false);
             return new ViewHolder(view);
         }
 
-        /** Replace the contents of a view (invoked by the layout manager) */
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mNameView.setText(mValues.get(position).getCharacterName());
-            holder.mLevelView.setText(mValues.get(position).getCharacterLevel());
-            holder.mClassView.setText(mValues.get(position).getCharacterClass());
+            holder.mIdView.setText(mValues.get(position).getCharacterName());
+            holder.mContentView.setText(mValues.get(position).getCharacterClass());
+
+            holder.itemView.setTag(mValues.get(position));
+            holder.itemView.setOnClickListener(mOnClickListener);
         }
 
-        /** Return the size of campaign list (invoked by the layout manager) */
+        /** Return the size of character list (invoked by the layout manager) */
         @Override
         public int getItemCount() {
             return mValues.size();
         }
 
-        /** Provide a reference to the views for each data item */
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mNameView;
-            final TextView mLevelView;
-            final TextView mClassView;
-            LinearLayout mainLayout;
+            final TextView mIdView;
+            final TextView mContentView;
 
             ViewHolder(View view) {
                 super(view);
-                mNameView = view.findViewById(R.id.character_name_txt);
-                mLevelView = view.findViewById(R.id.character_level_txt);
-                mClassView = view.findViewById(R.id.character_class_txt);
-                mainLayout = view.findViewById(R.id.mainLayout);
+                mIdView = (TextView) view.findViewById(R.id.id_text);
+                mContentView = (TextView) view.findViewById(R.id.content);
             }
         }
     }
@@ -198,7 +174,7 @@ public class CharacterListActivity extends AppCompatActivity {
                     urlConnection = (HttpURLConnection) urlObject.openConnection();
 
                     // For Debugging
-                    Log.i("Get_characters", mCharacterJSON.toString());
+                    //Log.i("Get_characters", mCharacterJSON.toString());
 
                     /** Get response from server. */
                     InputStream content = urlConnection.getInputStream();
@@ -231,7 +207,7 @@ public class CharacterListActivity extends AppCompatActivity {
             }
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                System.out.println("post");
+
                 if (jsonObject.getBoolean("success")) {
                     mCharacterList = Character.parseCharacterJSON(
                             jsonObject.getString("names"));
