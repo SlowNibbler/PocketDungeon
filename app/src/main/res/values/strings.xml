@@ -13,11 +13,13 @@
     <string name="title_activity_character_detail">CharacterDetailActivity</string>
 
 
-
     <string name="enter_character_name_hint">Name</string>
-    <string name="enter_character_class_hint">Clas</string>
+    <string name="enter_character_class_hint">Class</string>
     <string name="enter_character_race_hint">Race</string>
     <string name="enter_character_level_hint">Level</string>
     <string name="btn_add_character">Add Character</string>
+    <string name="title_character_list">Characters</string>
+    <string name="title_character_detail">Character Detail</string>
+
 
 </resources>

@@ -1,9 +1,7 @@
 package edu.tacoma.uw.myang12.pocketdungeon;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import com.google.android.material.navigation.NavigationView;
 
 import edu.tacoma.uw.myang12.pocketdungeon.authenticate.SignInActivity;
 import edu.tacoma.uw.myang12.pocketdungeon.campaign.CampaignListActivity;

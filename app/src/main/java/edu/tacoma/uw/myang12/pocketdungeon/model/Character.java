@@ -8,7 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A class for Campaign object, a campaign has ID, name and notes. */
+/** A class for Character object, a character has name, class, race, level, strength, dexterity,
+ * constitution, intelligence, wisdom and charisma. */
 public class Character implements Serializable {
 
     private String mCharacterName;
@@ -125,7 +126,7 @@ public class Character implements Serializable {
         return temp;
     }
 
-    /** method to construct a campaign list by parsing JsonObject. */
+    /** method to construct a character list by parsing JsonObject. */
     public static List<Character> parseCharacterJSON(String characterJson) throws JSONException {
         List<Character> characterList = new ArrayList<>();
         if (characterJson != null) {
