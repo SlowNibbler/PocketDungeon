@@ -14,6 +14,11 @@
         android:title="Character"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_search"
+        android:orderInCategory="200"
+        android:title="Compendium"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_logout"

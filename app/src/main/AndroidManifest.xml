@@ -12,10 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".compendium.CompendiumSelectTermActivity"></activity>
         <activity
             android:name=".character.CharacterListActivity"
             android:label="@string/title_character_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".character.CharacterDetailActivity"
             android:label="@string/title_character_detail"

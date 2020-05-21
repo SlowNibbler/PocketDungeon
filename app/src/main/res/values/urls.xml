@@ -8,5 +8,5 @@
 
     <string name="add_campaign">https://pocketdungeon-services-backend.herokuapp.com/campaigns</string>
     <string name="get_campaigns">https://pocketdungeon-services-backend.herokuapp.com/campaigns?memberid=</string>
-
+    <string name="dnd_api">https://www.dnd5eapi.co/api/</string>
 </resources>

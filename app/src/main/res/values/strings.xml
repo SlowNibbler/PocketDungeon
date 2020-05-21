@@ -20,6 +20,14 @@
     <string name="btn_add_character">Add Character</string>
     <string name="title_character_list">Characters</string>
     <string name="title_character_detail">Character Detail</string>
+    <string name="term_text">Select term</string>
 
+    <string-array name="term_arrays">
+        <item>Spells</item>
+        <item>Monsters</item>
+        <item>Equipment</item>
+    </string-array>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
