@@ -8,21 +8,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A class for Campaign object, a campaign has ID, name and notes. */
+/** A class for Campaign object, a campaign has ID, name, notes and player role. */
 public class Campaign implements Serializable {
     private int campaignID;
     private String campaignName;
-    private String getCampaignNotes;
+    private String campaignNotes;
+    private String campaignRole;
 
-    // fields for query database
     public static final String ID = "campaignid";
     public static final String NAME = "campaignname";
     public static final String NOTES = "campaignnotes";
 
-    public Campaign(int campaignID, String campaignName, String getCampaignNotes) {
+    public Campaign(int campaignID, String campaignName, String campaignNotes, String campaignRole) {
         this.campaignID = campaignID;
         this.campaignName = campaignName;
-        this.getCampaignNotes = getCampaignNotes;
+        this.campaignNotes = campaignNotes;
+        this.campaignRole = campaignRole;
     }
 
     public int getCampaignID() { return campaignID; }
@@ -38,14 +39,22 @@ public class Campaign implements Serializable {
     }
 
     public String getGetCampaignNotes() {
-        return getCampaignNotes;
+        return campaignNotes;
     }
 
-    public void setGetCampaignNotes(String getCampaignNotes) {
-        this.getCampaignNotes = getCampaignNotes;
+    public void setGetCampaignNotes(String campaignNotes) {
+        this.campaignNotes = campaignNotes;
     }
 
-    /** method to construct a campaign list by parsing JsonObject. */
+    public String getCampaignRole() {
+        return campaignRole;
+    }
+
+    public void setCampaignRole(String campaignRole) {
+        this.campaignRole = campaignRole;
+    }
+
+    /** Construct a campaign list by parsing JsonObject. */
     public static List<Campaign> parseCampaignJson(String campaignJson) throws JSONException {
         List<Campaign> campaignList = new ArrayList<>();
         if (campaignJson != null) {
@@ -54,10 +63,20 @@ public class Campaign implements Serializable {
                 JSONObject obj = arr.getJSONObject(i);
                 Campaign campaign = new Campaign(obj.getInt(Campaign.ID),
                         obj.getString(Campaign.NAME),
-                        obj.getString(Campaign.NOTES));
+                        obj.getString(Campaign.NOTES), "DM");
                 campaignList.add(campaign);
             }
         }
         return campaignList;
+    }
+
+    /** Construct a campaign object by parsing JsonObject. */
+    public static Campaign parseJoinCampaign(String campaignJson) throws JSONException {
+        JSONArray arr = new JSONArray(campaignJson);
+        JSONObject obj = arr.getJSONObject(0);
+        Campaign campaign = new Campaign(obj.getInt(Campaign.ID),
+                obj.getString(Campaign.NAME),
+                obj.getString(Campaign.NOTES), "Player");
+        return campaign;
     }
 }
