@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TableRow>
+
+        <FrameLayout
+        android:layout_marginTop="6dp"
+        android:background="@drawable/drawable_spinner_border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <Spinner
+                android:layout_marginTop="5dp"
+                android:id="@+id/term_spinner"
+                android:entries="@array/term_arrays"
+                android:layout_width="match_parent"
+                android:textSize="12sp"
+                android:spinnerMode="dropdown"
+                android:layout_height="30dp"/>
+
+            <TextView
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="9sp"
+                android:text="Select"
+                android:background="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp" />
+        </FrameLayout>
+
+    </TableRow>
+
+
+    <TableRow>
+        <EditText
+            android:id="@+id/search_term"
+            android:width="300dp"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:hint="Search"
+            />
+        <Button
+            android:id="@+id/button_search"
+            android:width="100dp"
+            android:text="Go"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+        />
+
+
+    </TableRow>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/spell_container"
+        >
+
+
+    </RelativeLayout>
+
+
+    </TableLayout>

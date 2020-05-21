@@ -12,12 +12,15 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+      
+        <activity android:name=".compendium.CompendiumSelectTermActivity"></activity>
 
         <activity
             android:name=".campaign.CampaignJoinActivity"
             android:label="Join Campaign"
             android:parentActivityName=".campaign.CampaignAddActivity">
         </activity>
+
         <activity
             android:name=".character.CharacterListActivity"
             android:label="@string/title_character_list"
