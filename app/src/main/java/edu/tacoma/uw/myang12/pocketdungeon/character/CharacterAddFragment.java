@@ -68,7 +68,7 @@ public class CharacterAddFragment extends Fragment {
                 String characterWisdom = character_wisdom.getText().toString();
                 String characterCharisma = character_charisma.getText().toString();
 
-                Character character = new Character(characterName, characterClass, characterRace,
+                Character character = new Character(0, characterName, characterClass, characterRace,
                         characterLevel, characterStrength, characterDexterity,
                         characterConstitution, characterIntelligence, characterWisdom,
                         characterCharisma);
