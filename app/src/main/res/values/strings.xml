@@ -4,6 +4,8 @@
     <string name="LOGGEDIN">loggedin</string>
     <string name="action_logout">Sign Out</string>
     <string name="USERID">userid</string>
+    <string name="CAMPAIGNID">campaignid</string>
+    <string name="CHARACTERID">characterid</string>
 
     <string name="Open">open</string>
     <string name="Close">close</string>
@@ -18,6 +20,7 @@
     <string name="enter_character_race_hint">Race</string>
     <string name="enter_character_level_hint">Level</string>
     <string name="btn_add_character">Add Character</string>
+
     <string name="title_character_list">Characters</string>
     <string name="title_character_detail">Character Detail</string>
     <string name="term_text">Select term</string>

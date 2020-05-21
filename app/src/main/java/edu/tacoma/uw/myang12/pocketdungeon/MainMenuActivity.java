@@ -20,13 +20,10 @@ import edu.tacoma.uw.myang12.pocketdungeon.compendium.CompendiumSelectTermActivi
  */
 public class MainMenuActivity extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
     }
 
     /** Set up the buttons in main screen. */
