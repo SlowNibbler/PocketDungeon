@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import edu.tacoma.uw.myang12.pocketdungeon.authenticate.SignInActivity;
 import edu.tacoma.uw.myang12.pocketdungeon.campaign.CampaignListActivity;
 import edu.tacoma.uw.myang12.pocketdungeon.character.CharacterListActivity;
+import edu.tacoma.uw.myang12.pocketdungeon.compendium.CompendiumSelectTermActivity;
 
 /**
  * The main screen displaying when user opens the app.
@@ -52,6 +53,11 @@ public class MainMenuActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.action_character) {
             Intent i = new Intent(this, CharacterListActivity.class);
+            startActivity(i);
+        }
+
+        if (item.getItemId() == R.id.action_search) {
+            Intent i = new Intent(this, CompendiumSelectTermActivity.class);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);
