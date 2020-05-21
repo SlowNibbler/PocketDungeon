@@ -18,6 +18,7 @@ public class Campaign implements Serializable {
     public static final String ID = "campaignid";
     public static final String NAME = "campaignname";
     public static final String NOTES = "campaignnotes";
+    public static final String ROLE = "role";
 
     public Campaign(int campaignID, String campaignName, String campaignNotes, String campaignRole) {
         this.campaignID = campaignID;
@@ -63,7 +64,7 @@ public class Campaign implements Serializable {
                 JSONObject obj = arr.getJSONObject(i);
                 Campaign campaign = new Campaign(obj.getInt(Campaign.ID),
                         obj.getString(Campaign.NAME),
-                        obj.getString(Campaign.NOTES), "DM");
+                        obj.getString(Campaign.NOTES), obj.getString(Campaign.ROLE));
                 campaignList.add(campaign);
             }
         }
