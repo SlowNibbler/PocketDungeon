@@ -82,7 +82,7 @@ public class CampaignAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String campaignId = campaign_code.getText().toString();
-                StringBuilder url = new StringBuilder(getString(R.string.join_campaign));
+                StringBuilder url = new StringBuilder(getString(R.string.search_campaign));
                 url.append(campaignId);
                 mCampaignJSON = new JSONObject();
                 new CampaignAddActivity.SearchCampaignTask().execute(url.toString());

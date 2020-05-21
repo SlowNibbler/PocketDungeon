@@ -1,6 +1,8 @@
 package edu.tacoma.uw.myang12.pocketdungeon.character;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -23,6 +25,7 @@ public class CharacterDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
     private Character mCharacter;
+    private SharedPreferences mSharedPreferences;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -38,6 +41,13 @@ public class CharacterDetailFragment extends Fragment {
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             mCharacter = (Character) getArguments().getSerializable(ARG_ITEM_ID);
+
+            /** Store character id into SharedPreferences. */
+            mSharedPreferences = getActivity().getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                    Context.MODE_PRIVATE);
+            mSharedPreferences.edit()
+                    .putInt(getString(R.string.CHARACTERID), mCharacter.getmCharacterID())
+                    .commit();
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout)

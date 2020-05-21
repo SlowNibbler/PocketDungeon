@@ -12,6 +12,7 @@ import java.util.List;
  * constitution, intelligence, wisdom and charisma. */
 public class Character implements Serializable {
 
+    private int mCharacterID;
     private String mCharacterName;
     private String mCharacterClass;
     private String mCharacterRace;
@@ -24,6 +25,7 @@ public class Character implements Serializable {
     private String mCharacterCha;
 
     // fields for query database
+    public static final String CHARACTERID = "characterid";
     public static final String CHARACTERNAME = "charactername";
     public static final String CHARACTERCLASS = "characterclass";
     public static final String CHARACTERRACE = "characterrace";
@@ -35,7 +37,9 @@ public class Character implements Serializable {
     public static final String CHARACTERWIS = "wisdom";
     public static final String CHARACTERCHA = "charisma";
 
-    public Character(String name, String charClass, String race, String level, String str, String dex, String constI, String intl, String wis, String cha) {
+    public Character(int id, String name, String charClass, String race, String level, String str,
+                     String dex, String constI, String intl, String wis, String cha) {
+        mCharacterID = id;
         mCharacterName = name;
         mCharacterClass = charClass;
         mCharacterRace = race;
@@ -46,6 +50,14 @@ public class Character implements Serializable {
         mCharacterInt = intl;
         mCharacterWis = wis;
         mCharacterCha = cha;
+    }
+
+    public int getmCharacterID() {
+        return mCharacterID;
+    }
+
+    public void setmCharacterID(int mCharacterID) {
+        this.mCharacterID = mCharacterID;
     }
 
     public String getCharacterName() {return this.mCharacterName;}
@@ -120,11 +132,11 @@ public class Character implements Serializable {
     }
 
 
-
-    public String toString() {
-        String temp = "Name: " + this.mCharacterName + "Level: " + this.mCharacterLevel;
-        return temp;
-    }
+/** Should this be removed? */
+//    public String toString() {
+//        String temp = "Name: " + this.mCharacterName + "Level: " + this.mCharacterLevel;
+//        return temp;
+//    }
 
     /** method to construct a character list by parsing JsonObject. */
     public static List<Character> parseCharacterJSON(String characterJson) throws JSONException {
@@ -135,10 +147,17 @@ public class Character implements Serializable {
 
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
-                Character character = new Character(obj.getString(Character.CHARACTERNAME), obj.getString(Character.CHARACTERCLASS), obj.getString(Character.CHARACTERRACE),
-                        String.valueOf(obj.getInt(Character.CHARACTERLEVEL)), String.valueOf(obj.getInt(Character.CHARACTERSTR)), String.valueOf(obj.getInt(Character.CHARACTERDEX)),
+                Character character = new Character(obj.getInt(Character.CHARACTERID),
+                        obj.getString(Character.CHARACTERNAME),
+                        obj.getString(Character.CHARACTERCLASS),
+                        obj.getString(Character.CHARACTERRACE),
+                        String.valueOf(obj.getInt(Character.CHARACTERLEVEL)),
+                        String.valueOf(obj.getInt(Character.CHARACTERSTR)),
+                        String.valueOf(obj.getInt(Character.CHARACTERDEX)),
                         String.valueOf(obj.getInt(Character.CHARACTERCONST)),
-                        String.valueOf(obj.getInt(Character.CHARACTERINT)), String.valueOf(obj.getInt(Character.CHARACTERWIS)), String.valueOf(obj.getInt(Character.CHARACTERCHA)));
+                        String.valueOf(obj.getInt(Character.CHARACTERINT)),
+                        String.valueOf(obj.getInt(Character.CHARACTERWIS)),
+                        String.valueOf(obj.getInt(Character.CHARACTERCHA)));
                 characterList.add(character);
             }
         }

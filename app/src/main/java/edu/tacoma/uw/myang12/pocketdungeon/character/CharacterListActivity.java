@@ -173,9 +173,6 @@ public class CharacterListActivity extends AppCompatActivity {
                     URL urlObject = new URL(url);
                     urlConnection = (HttpURLConnection) urlObject.openConnection();
 
-                    // For Debugging
-                    //Log.i("Get_characters", mCharacterJSON.toString());
-
                     /** Get response from server. */
                     InputStream content = urlConnection.getInputStream();
                     BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
