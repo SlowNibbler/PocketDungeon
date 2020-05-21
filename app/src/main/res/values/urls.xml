@@ -8,5 +8,6 @@
 
     <string name="add_campaign">https://pocketdungeon-services-backend.herokuapp.com/campaigns</string>
     <string name="get_campaigns">https://pocketdungeon-services-backend.herokuapp.com/campaigns?memberid=</string>
+    <string name="join_campaign">https://pocketdungeon-services-backend.herokuapp.com/campaigns/search?campaignid=</string>
 
 </resources>
