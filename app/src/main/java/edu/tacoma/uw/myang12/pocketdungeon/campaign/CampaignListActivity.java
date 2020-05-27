@@ -1,3 +1,8 @@
+/**
+ * This class handles displaying the list of campaign under user's account.
+ *
+ * @author: Meng Yang
+ */
 package edu.tacoma.uw.myang12.pocketdungeon.campaign;
 
 import androidx.annotation.NonNull;
@@ -13,7 +18,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +41,6 @@ public class CampaignListActivity extends AppCompatActivity {
 
     private List<Campaign> mCampaignList;
     private RecyclerView mRecyclerView;
-    private SharedPreferences mSharedPreferences;
-    private JSONObject mCampaignJSON;
 
     /** Get userID from SharedPreferences and query user's campaign list. */
     @Override
@@ -46,7 +48,6 @@ public class CampaignListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_list);
 
-        mRecyclerView = findViewById(R.id.recyclerView);
         FloatingActionButton add_button = findViewById(R.id.add_button);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,15 +57,13 @@ public class CampaignListActivity extends AppCompatActivity {
             }
         });
 
-        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
         int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
-
         StringBuilder url = new StringBuilder(getString(R.string.get_campaigns));
         url.append(userID);
-
-        mCampaignJSON = new JSONObject();
         new CampaignListActivity.CampaignTask().execute(url.toString());
 
+        mRecyclerView = findViewById(R.id.campaign_list);
         assert mRecyclerView != null;
         setupRecyclerView(mRecyclerView);
     }
@@ -83,6 +82,17 @@ public class CampaignListActivity extends AppCompatActivity {
 
         private final CampaignListActivity mParent;
         private final List<Campaign> mValues;
+
+        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int campaignId = view.getId();
+                Context context = view.getContext();
+                Intent intent = new Intent(context, CampaignCharacterActivity.class);
+                intent.putExtra("campaignID", campaignId);
+                context.startActivity(intent);
+            }
+        };
 
         // constructor
         SimpleItemRecyclerViewAdapter(CampaignListActivity parent,
@@ -106,6 +116,9 @@ public class CampaignListActivity extends AppCompatActivity {
             holder.mNameView.setText(mValues.get(position).getCampaignName());
             holder.mNotesView.setText(mValues.get(position).getGetCampaignNotes());
             holder.mRoleView.setText(mValues.get(position).getCampaignRole());
+
+            holder.itemView.setId(mValues.get(position).getCampaignID());
+            holder.itemView.setOnClickListener(mOnClickListener);
         }
 
         // Return the size of campaign list (invoked by the layout manager)
@@ -120,7 +133,6 @@ public class CampaignListActivity extends AppCompatActivity {
             final TextView mNameView;
             final TextView mNotesView;
             final TextView mRoleView;
-            LinearLayout mainLayout;
 
             ViewHolder(View view) {
                 super(view);
@@ -128,7 +140,6 @@ public class CampaignListActivity extends AppCompatActivity {
                 mNameView = view.findViewById(R.id.campaign_name_txt);
                 mNotesView = view.findViewById(R.id.campaign_notes_txt);
                 mRoleView = view.findViewById(R.id.campaign_role_txt);
-                mainLayout = view.findViewById(R.id.mainLayout);
             }
         }
     }

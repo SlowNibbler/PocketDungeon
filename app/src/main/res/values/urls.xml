@@ -5,6 +5,7 @@
 
     <string name="add_character">https://pocketdungeon-services-backend.herokuapp.com/characters</string>
     <string name="get_characters">https://pocketdungeon-services-backend.herokuapp.com/characters?memberid=</string>
+    <string name="search_characters">https://pocketdungeon-services-backend.herokuapp.com/characters/search?c.campaignid=</string>
 
     <string name="add_campaign">https://pocketdungeon-services-backend.herokuapp.com/campaigns</string>
     <string name="get_campaigns">https://pocketdungeon-services-backend.herokuapp.com/campaigns?memberid=</string>
