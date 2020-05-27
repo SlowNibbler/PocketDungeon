@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,6 @@ public class LoginFragment extends Fragment {
 
     private LoginFragmentListener mLoginFragmentListener;
     private JSONObject mUserJSON;
-    private SharedPreferences mSharedPreferences;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -69,6 +69,17 @@ public class LoginFragment extends Fragment {
                 String email = emailText.getText().toString();
                 String password = pwdText.getText().toString();
                 StringBuilder url = new StringBuilder(getString(R.string.login));
+
+                if (TextUtils.isEmpty(email) || !email.contains("@")) {
+                    Toast.makeText(v.getContext(), "Enter valid email address",
+                            Toast.LENGTH_SHORT).show();
+                    emailText.requestFocus();
+                }
+                else if (TextUtils.isEmpty(password) || password.length() < 6) {
+                    Toast.makeText(v.getContext(), "Enter valid password (at least 6 characters)",
+                            Toast.LENGTH_SHORT).show();
+                    pwdText.requestFocus();
+                }
 
                 /** construct a JSONObject to build a formatted message to send. */
                 mUserJSON = new JSONObject();
@@ -152,7 +163,7 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getActivity(),
                             "Login Successfully", Toast.LENGTH_SHORT).show();
 
-                    mSharedPreferences = getActivity().getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                    SharedPreferences mSharedPreferences = getActivity().getSharedPreferences(getString(R.string.LOGIN_PREFS),
                             Context.MODE_PRIVATE);
                     mSharedPreferences.edit()
                             .putInt(getString(R.string.USERID), jsonObject.getInt("memberId"))
