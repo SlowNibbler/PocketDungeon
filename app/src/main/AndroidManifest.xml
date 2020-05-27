@@ -19,7 +19,7 @@
         <activity android:name=".compendium.CompendiumSelectTermActivity" />
         <activity
             android:name=".campaign.CampaignJoinActivity"
-            android:label="Join Campaign"
+            android:label="Current Campaign"
             android:parentActivityName=".campaign.CampaignAddActivity">
         </activity>
         <activity
