@@ -16,13 +16,19 @@
 
     <item
         android:id="@+id/action_search"
-        android:orderInCategory="200"
+        android:orderInCategory="300"
         android:title="Compendium"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_logout"
+        android:id="@+id/action_compendium"
         android:orderInCategory="300"
+        android:title="Compendium Alt"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="400"
         android:title="Sign Out"
         app:showAsAction="never" />
 
