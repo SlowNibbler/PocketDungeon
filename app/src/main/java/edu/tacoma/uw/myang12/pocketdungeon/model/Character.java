@@ -164,17 +164,6 @@ public class Character implements Serializable {
         return characterList;
     }
 
-    public static List<String> parseCharacterList(String characterJson) throws JSONException {
-        List<String> characterList = new ArrayList<>();
-        if (characterJson != null) {
-            JSONArray arr = new JSONArray(characterJson);
-            for (int i = 0; i < arr.length(); i++) {
-                JSONObject obj = arr.getJSONObject(i);
-                characterList.add(obj.getString(Character.CHARACTERNAME));
-            }
-        }
-        return characterList;
-    }
 }
 
 
