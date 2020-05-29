@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -34,7 +36,8 @@ import edu.tacoma.uw.myang12.pocketdungeon.R;
 
 public class CampaignCharacterActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private List<String> mCharacterList;
+    private List<Character> mCharacterList;
+    int campaignId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class CampaignCharacterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_campaign_character);
 
         Intent intent = getIntent();
-        int campaignId = intent.getIntExtra("campaignID", 0);
+        campaignId = intent.getIntExtra("campaignID", 0);
         StringBuilder url = new StringBuilder(getString(R.string.search_characters));
         url.append(campaignId);
 
@@ -51,6 +54,26 @@ public class CampaignCharacterActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.campaign_character_list);
         assert mRecyclerView != null;
         setupRecyclerView(mRecyclerView);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_invite,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_invite) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi, join me in Pocket Dungeon with Code #" + campaignId + ".");
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -64,10 +87,10 @@ public class CampaignCharacterActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final CampaignCharacterActivity mParentActivity;
-        private final List<String> mValues;
+        private final List<Character> mValues;
 
         SimpleItemRecyclerViewAdapter(CampaignCharacterActivity parent,
-                                      List<String> items) {
+                                      List<Character> items) {
             mValues = items;
             mParentActivity = parent;
         }
@@ -81,7 +104,7 @@ public class CampaignCharacterActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mNameView.setText(mValues.get(position));
+            holder.mNameView.setText(mValues.get(position).getCharacterName());
         }
 
         @Override
@@ -142,7 +165,7 @@ public class CampaignCharacterActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(s);
 
                 if (jsonObject.getBoolean("success")) {
-                    mCharacterList = Character.parseCharacterList(
+                    mCharacterList = Character.parseCharacterJSON(
                             jsonObject.getString("names"));
 
                     if (!mCharacterList.isEmpty()) {

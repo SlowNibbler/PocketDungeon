@@ -42,7 +42,7 @@ import edu.tacoma.uw.myang12.pocketdungeon.R;
 
 public class CampaignJoinActivity extends AppCompatActivity {
 
-    private List<String> mCharacterList;
+    private List<Character> mCharacterList;
     private RecyclerView mRecyclerView;
 
     @Override
@@ -102,10 +102,10 @@ public class CampaignJoinActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<CampaignJoinActivity.SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final CampaignJoinActivity mParentActivity;
-        private final List<String> mValues;
+        private final List<Character> mValues;
 
         SimpleItemRecyclerViewAdapter(CampaignJoinActivity parent,
-                                      List<String> items) {
+                                      List<Character> items) {
             mValues = items;
             mParentActivity = parent;
         }
@@ -119,7 +119,7 @@ public class CampaignJoinActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final CampaignJoinActivity.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
-            holder.mNameView.setText(mValues.get(position));
+            holder.mNameView.setText(mValues.get(position).getCharacterName());
         }
 
         @Override
@@ -180,7 +180,7 @@ public class CampaignJoinActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(s);
 
                 if (jsonObject.getBoolean("success")) {
-                    mCharacterList = Character.parseCharacterList(
+                    mCharacterList = Character.parseCharacterJSON(
                             jsonObject.getString("names"));
 
                     if (!mCharacterList.isEmpty()) {
