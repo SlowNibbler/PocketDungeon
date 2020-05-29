@@ -277,8 +277,7 @@ public class CharacterDetailActivity extends AppCompatActivity
                     finish();
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Campaign couldn't be joined: "
-                                    + jsonObject.getString("error")
+                    Toast.makeText(getApplicationContext(), "Character is already part of this campaign"
                             , Toast.LENGTH_LONG).show();
                     Log.e("Join_Campaign", jsonObject.getString("error"));
                 }
