@@ -12,4 +12,6 @@
     <string name="dnd_api">https://www.dnd5eapi.co/api/</string>
     <string name="search_campaign">https://pocketdungeon-services-backend.herokuapp.com/campaigns/search?campaignid=</string>
     <string name="join_campaign">https://pocketdungeon-services-backend.herokuapp.com/campaigns/join</string>
+
+    <string name="compendium">https://radai.github.io/dnd5tools/</string>
 </resources>

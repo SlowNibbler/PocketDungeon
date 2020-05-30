@@ -13,15 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".campaign.CampaignCharacterActivity"
-            android:label="Players">
+            android:name=".compendium.CompendiumActivity"
+            android:label="Compendium">
         </activity>
+        <activity
+            android:name=".campaign.CampaignCharacterActivity"
+            android:label="Players"></activity>
         <activity android:name=".compendium.CompendiumSelectTermActivity" />
         <activity
             android:name=".campaign.CampaignJoinActivity"
             android:label="Current Campaign"
-            android:parentActivityName=".campaign.CampaignAddActivity">
-        </activity>
+            android:parentActivityName=".campaign.CampaignAddActivity"></activity>
         <activity
             android:name=".character.CharacterListActivity"
             android:label="@string/title_character_list"
