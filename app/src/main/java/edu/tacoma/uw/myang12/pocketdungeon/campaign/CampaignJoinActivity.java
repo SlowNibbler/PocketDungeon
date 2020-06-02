@@ -109,10 +109,10 @@ public class CampaignJoinActivity extends AppCompatActivity {
         }
 
         @Override
-        public CampaignJoinActivity.SimpleItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.campaign_character_list, parent, false);
-            return new CampaignJoinActivity.SimpleItemRecyclerViewAdapter.ViewHolder(view);
+            return new ViewHolder(view);
         }
 
         @Override
