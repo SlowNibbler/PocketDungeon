@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import edu.tacoma.uw.myang12.pocketdungeon.character.CharacterDetailActivity;
+import edu.tacoma.uw.myang12.pocketdungeon.character.CharacterDetailFragment;
 import edu.tacoma.uw.myang12.pocketdungeon.model.Character;
 import edu.tacoma.uw.myang12.pocketdungeon.R;
 
@@ -89,6 +92,17 @@ public class CampaignCharacterActivity extends AppCompatActivity {
         private final CampaignCharacterActivity mParentActivity;
         private final List<Character> mValues;
 
+        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Character item = (Character) v.getTag();
+                Context context = v.getContext();
+                Intent intent = new Intent(context, CharacterDetailActivity.class);
+                intent.putExtra(CharacterDetailFragment.ARG_ITEM_ID, item);
+                context.startActivity(intent);
+            }
+        };
+
         SimpleItemRecyclerViewAdapter(CampaignCharacterActivity parent,
                                       List<Character> items) {
             mValues = items;
@@ -105,6 +119,8 @@ public class CampaignCharacterActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mNameView.setText(mValues.get(position).getCharacterName());
+            holder.mNameView.setTag(mValues.get(position));
+            holder.mNameView.setOnClickListener(mOnClickListener);
         }
 
         @Override

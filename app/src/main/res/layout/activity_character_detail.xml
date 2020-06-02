@@ -50,6 +50,6 @@
         app:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@+id/character_detail_container"
         app:layout_anchorGravity="top|end"
-        app:srcCompat="@drawable/ic_done" />
+        app:srcCompat="@android:drawable/stat_notify_chat" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
