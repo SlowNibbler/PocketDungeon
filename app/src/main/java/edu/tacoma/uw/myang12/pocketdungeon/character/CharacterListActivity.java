@@ -13,10 +13,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +24,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.tacoma.uw.myang12.pocketdungeon.R;
+import edu.tacoma.uw.myang12.pocketdungeon.campaign.CampaignListActivity;
+import edu.tacoma.uw.myang12.pocketdungeon.model.Campaign;
 import edu.tacoma.uw.myang12.pocketdungeon.model.Character;
+import edu.tacoma.uw.myang12.pocketdungeon.model.User;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -42,9 +46,8 @@ import java.util.List;
 public class CharacterListActivity extends AppCompatActivity {
     private List<Character> mCharacterList;
     private RecyclerView mRecyclerView;
-    private SharedPreferences mSharedPreferences;
-    private JSONObject mCharacterJSON;
     private StringBuilder url;
+    JSONObject mCampCharJSON;
 
     /** Set up display page and add button listener. */
     @Override
@@ -65,7 +68,7 @@ public class CharacterListActivity extends AppCompatActivity {
         });
 
         /** Use SharedPreferences to retrieve userID for query. */
-        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
         int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
 
         /** Set up url and append userID in the url query field. */
@@ -82,7 +85,6 @@ public class CharacterListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (mCharacterList == null) {
-            mCharacterJSON = new JSONObject();
             new CharacterListActivity.CharacterTask().execute(url.toString());
             setupRecyclerView(mRecyclerView);
         }
@@ -103,7 +105,7 @@ public class CharacterListActivity extends AppCompatActivity {
     }
 
     /** Class to build RecyclerView and View holders. */
-    public static class SimpleItemRecyclerViewAdapter
+    public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final CharacterListActivity mParentActivity;
@@ -113,12 +115,33 @@ public class CharacterListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Character item = (Character) view.getTag();
-
                 Context context = view.getContext();
                 Intent intent = new Intent(context, CharacterDetailActivity.class);
                 intent.putExtra(CharacterDetailFragment.ARG_ITEM_ID, item);
-
                 context.startActivity(intent);
+            }
+        };
+
+        private final View.OnClickListener btnOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Character character = (Character) v.getTag();
+                SharedPreferences mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                        Context.MODE_PRIVATE);
+                int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
+                int campaignID = mSharedPreferences.getInt(getString(R.string.CAMPAIGNID), 0);
+                int characterID = character.getmCharacterID();
+
+                StringBuilder url = new StringBuilder(getString(R.string.join_campaign));
+                mCampCharJSON = new JSONObject();
+                try {
+                    mCampCharJSON.put(User.ID, userID);
+                    mCampCharJSON.put(Campaign.ID, campaignID);
+                    mCampCharJSON.put(Character.CHARACTERID, characterID);
+                    new CharacterListActivity.JoinCampaignTask().execute(url.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -142,6 +165,9 @@ public class CharacterListActivity extends AppCompatActivity {
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
+
+            holder.assignButton.setTag(mValues.get(position));
+            holder.assignButton.setOnClickListener(btnOnClickListener);
         }
 
         /** Return the size of character list (invoked by the layout manager) */
@@ -153,11 +179,13 @@ public class CharacterListActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
+            final Button assignButton;
 
             ViewHolder(View view) {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
+                assignButton = view.findViewById(R.id.assign_char_btn);
             }
         }
     }
@@ -209,17 +237,80 @@ public class CharacterListActivity extends AppCompatActivity {
                     mCharacterList = Character.parseCharacterJSON(
                             jsonObject.getString("names"));
 
-                    // For Debugging
-                    Log.i("characterJson", mCharacterJSON.toString());
-
                     if (!mCharacterList.isEmpty()) {
                         setupRecyclerView(mRecyclerView);
                     }
                 }
-
             } catch (JSONException e) {
                 Toast.makeText(getApplicationContext(), "JSON Error: " + e.getMessage(),
                         Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /** Send post request and add join campaign info into server. */
+    private class JoinCampaignTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            for (String url : urls) {
+                try {
+                    URL urlObject = new URL(url);
+                    urlConnection = (HttpURLConnection) urlObject.openConnection();
+                    urlConnection.setRequestMethod("POST");
+                    urlConnection.setRequestProperty("Content-Type", "application/json");
+                    urlConnection.setDoOutput(true);
+                    OutputStreamWriter wr =
+                            new OutputStreamWriter(urlConnection.getOutputStream());
+                    wr.write(mCampCharJSON.toString());
+                    wr.flush();
+                    wr.close();
+
+                    InputStream content = urlConnection.getInputStream();
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+
+                } catch (Exception e) {
+                    response = "Unable to add the new campaign, Reason: "
+                            + e.getMessage();
+                } finally {
+                    if (urlConnection != null)
+                        urlConnection.disconnect();
+                }
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (s.startsWith("Unable to add the new campaign")) {
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+
+                if (jsonObject.getBoolean("success")) {
+                    Toast.makeText(getApplicationContext(), "Campaign joined successfully"
+                            , Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(CharacterListActivity.this, CampaignListActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Character is already part of this campaign"
+                            , Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), "JSON Parsing error on joining campaign"
+                                + e.getMessage()
+                        , Toast.LENGTH_LONG).show();
             }
         }
     }

@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -30,8 +31,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import edu.tacoma.uw.myang12.pocketdungeon.R;
-import edu.tacoma.uw.myang12.pocketdungeon.campaign.CampaignListActivity;
-import edu.tacoma.uw.myang12.pocketdungeon.model.Campaign;
 import edu.tacoma.uw.myang12.pocketdungeon.model.User;
 import edu.tacoma.uw.myang12.pocketdungeon.model.Character;
 
@@ -43,7 +42,6 @@ public class CharacterDetailActivity extends AppCompatActivity
 
     public static final String ADD_CHARACTER = "ADD_CHARACTER";
     private JSONObject mCharacterJSON;
-    private JSONObject mCampCharJSON;
 
     /** Set up display. */
     @Override
@@ -57,23 +55,8 @@ public class CharacterDetailActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /** Get params from SharedPreferences. */
-                SharedPreferences mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
-                        Context.MODE_PRIVATE);
-                int userID = mSharedPreferences.getInt(getString(R.string.USERID), 0);
-                int campaignID = mSharedPreferences.getInt(getString(R.string.CAMPAIGNID), 0);
-                int characterID = mSharedPreferences.getInt(getString(R.string.CHARACTERID), 0);
-
-                StringBuilder url = new StringBuilder(getString(R.string.join_campaign));
-                mCampCharJSON = new JSONObject();
-                try {
-                    mCampCharJSON.put(User.ID, userID);
-                    mCampCharJSON.put(Campaign.ID, campaignID);
-                    mCampCharJSON.put(Character.CHARACTERID, characterID);
-                    new CharacterDetailActivity.JoinCampaignTask().execute(url.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
 
@@ -217,75 +200,6 @@ public class CharacterDetailActivity extends AppCompatActivity
                                 + e.getMessage()
                         , Toast.LENGTH_LONG).show();
                 Log.e("Add_Character", e.getMessage());
-            }
-        }
-    }
-
-    /** Send post request and add join campaign info into server. */
-    private class JoinCampaignTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... urls) {
-            String response = "";
-            HttpURLConnection urlConnection = null;
-            for (String url : urls) {
-                try {
-                    URL urlObject = new URL(url);
-                    urlConnection = (HttpURLConnection) urlObject.openConnection();
-                    urlConnection.setRequestMethod("POST");
-                    urlConnection.setRequestProperty("Content-Type", "application/json");
-                    urlConnection.setDoOutput(true);
-                    OutputStreamWriter wr =
-                            new OutputStreamWriter(urlConnection.getOutputStream());
-                    wr.write(mCampCharJSON.toString());
-                    wr.flush();
-                    wr.close();
-
-                    InputStream content = urlConnection.getInputStream();
-                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                    String s = "";
-                    while ((s = buffer.readLine()) != null) {
-                        response += s;
-                    }
-
-                } catch (Exception e) {
-                    response = "Unable to add the new campaign, Reason: "
-                            + e.getMessage();
-                } finally {
-                    if (urlConnection != null)
-                        urlConnection.disconnect();
-                }
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if (s.startsWith("Unable to add the new campaign")) {
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-                return;
-            }
-            try {
-                JSONObject jsonObject = new JSONObject(s);
-
-                if (jsonObject.getBoolean("success")) {
-                    Toast.makeText(getApplicationContext(), "Campaign joined successfully"
-                            , Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(CharacterDetailActivity.this, CampaignListActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Character is already part of this campaign"
-                            , Toast.LENGTH_LONG).show();
-                    Log.e("Join_Campaign", jsonObject.getString("error"));
-                }
-            } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(), "JSON Parsing error on joining campaign"
-                                + e.getMessage()
-                        , Toast.LENGTH_LONG).show();
-                Log.e("Join_Campaign", e.getMessage());
             }
         }
     }
