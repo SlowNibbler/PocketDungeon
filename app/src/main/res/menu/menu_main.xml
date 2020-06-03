@@ -4,31 +4,37 @@
 
     <item
         android:id="@+id/action_campaign"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:title="Campaign"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_character"
-        android:orderInCategory="200"
+        android:orderInCategory="2"
         android:title="Character"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_search"
-        android:orderInCategory="300"
+        android:orderInCategory="3"
         android:title="Compendium"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_compendium"
-        android:orderInCategory="300"
+        android:orderInCategory="4"
         android:title="Compendium Alt"
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_dice"
+        android:orderInCategory="5"
+        android:title="Dice"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_logout"
-        android:orderInCategory="400"
+        android:orderInCategory="6"
         android:title="Sign Out"
         app:showAsAction="never" />
 
