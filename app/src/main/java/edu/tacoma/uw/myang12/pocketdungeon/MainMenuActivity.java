@@ -15,6 +15,7 @@ import edu.tacoma.uw.myang12.pocketdungeon.campaign.CampaignListActivity;
 import edu.tacoma.uw.myang12.pocketdungeon.character.CharacterListActivity;
 import edu.tacoma.uw.myang12.pocketdungeon.compendium.CompendiumActivity;
 import edu.tacoma.uw.myang12.pocketdungeon.compendium.CompendiumSelectTermActivity;
+import edu.tacoma.uw.myang12.pocketdungeon.compendium.DiceActivity;
 
 /**
  * The main screen displaying when user opens the app.
@@ -66,6 +67,12 @@ public class MainMenuActivity extends AppCompatActivity {
             Intent i = new Intent(this, CompendiumActivity.class);
             startActivity(i);
         }
+
+        if (item.getItemId() == R.id.action_dice) {
+            Intent i = new Intent(this, DiceActivity.class);
+            startActivity(i);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }

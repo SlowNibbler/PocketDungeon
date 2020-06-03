@@ -14,4 +14,5 @@
     <string name="join_campaign">https://pocketdungeon-services-backend.herokuapp.com/campaigns/join</string>
 
     <string name="compendium">https://radai.github.io/dnd5tools/</string>
+    <string name="dice">https://rolladie.net/roll-a-d20-die</string>
 </resources>
